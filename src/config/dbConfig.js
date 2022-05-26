@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const URL = "mongodb://localhost:27017/yourdb";
+const URI = "mongodb://localhost:27017/yourdb";
 
-mongoose.connect(process.env.MONGO_DB_URL || URL, {
+mongoose.connect(process.env.MONGO_DB_URI || URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 mongoose.connection.on("error", () => console.error("Error in db connection"));

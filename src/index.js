@@ -1,15 +1,12 @@
-require("dotenv").config();
+import express from "express";
+import "dotenv/config";
+import "./config/dbConfig.js";
 
-const app = require("express")();
-const path = require("path");
-
-require("./config/dbConfig");
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.send(`<h1>Estoy funcionando</h1>`);
+  res.json({ ok: true });
 });
 
-app.listen(
-  process.env.PORT,
-  console.log(`running in port ${process.env.PORT}`)
-);
+app.listen(PORT, console.log(`running in port ${PORT}`));
