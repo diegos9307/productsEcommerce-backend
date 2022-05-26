@@ -1,9 +1,9 @@
-import express from "express";
+import { Router } from "express";
 import { login, register } from "../controllers/auth.controller.js";
 import pkg from "express-validator";
 import { validationResultExpress } from "../middlewares/validationResultExpress.js";
-const { body, check, custom } = pkg;
-const router = express.Router();
+const { body } = pkg;
+const router = Router();
 
 router.post(
   "/register",
@@ -26,15 +26,7 @@ router.post(
 
 router.post(
   "/login",
-  [
-    body("email", "Formato de email incorrecto").trim().isEmail().normalizeEmail(),
-    body(
-      "password",
-      "La contraseña debe tener mínimo 8 carácteres, 1 letra mayúscula, 1 símbolo y 1 número"
-    )
-      .trim()
-      .isStrongPassword()
-  ],
+  [body("email", "Formato de email incorrecto").trim().isEmail().normalizeEmail()],
   validationResultExpress,
   login
 );
