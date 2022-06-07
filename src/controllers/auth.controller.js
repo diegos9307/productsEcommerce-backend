@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { generateToken } from "../utils/tokenManager.js";
 
 export const register = async (req, res) => {
   const { username, email, password, terms } = req.body;
@@ -9,7 +10,7 @@ export const register = async (req, res) => {
     }
     user = new User({ username, email, password, terms });
     await user.save();
-    return res.json({ ok: true });
+    return res.json({ messsage: "Usuario creado exitosamente" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Error de servidor" });
@@ -24,7 +25,11 @@ export const login = async (req, res) => {
 
     const answerPassword = await user.comparePassword(password);
     if (!answerPassword) return res.status(403).json({ error: "Credenciales incorrectas" });
-    res.json({ ok: "login" });
+
+    // Generar token de JWT
+    const { token } = generateToken(user.id);
+
+    res.json({ token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Error de servidor" });
